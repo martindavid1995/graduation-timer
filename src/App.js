@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import moment from "moment";
+import { calcTimeDelta } from "react-countdown";
+import "./styles.css";
 
-function App() {
+export default function () {
+  const [time, setTime] = useState(Date.now());
+  const delt = calcTimeDelta(moment("2023-05-19"));
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  function leadingZeros(num) {
+    return num < 10 ? "0" + num : num;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="body">
+      <table className="tg">
+        <thead>
+          <tr>
+            <th className="tg-x3s1" colSpan="4">
+              Time until I graduate
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="tg-bwtg">{leadingZeros(delt.days)}</td>
+            <td className="tg-bwtg">{leadingZeros(delt.hours)}</td>
+            <td className="tg-bwtg">{leadingZeros(delt.minutes)}</td>
+            <td className="tg-bwtg">{leadingZeros(delt.seconds)}</td>
+          </tr>
+          <tr>
+            <td className="tg-baqh">Days</td>
+            <td className="tg-baqh">Hours</td>
+            <td className="tg-baqh">Minutes</td>
+            <td className="tg-baqh">Seconds</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
-
-export default App;
